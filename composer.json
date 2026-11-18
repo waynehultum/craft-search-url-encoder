@@ -1,0 +1,51 @@
+{
+  "name": "designworkshop/craft-search-url-encoder",
+  "description": "Encodes search queries into clean, shareable search result URLs for Craft CMS 5.",
+  "type": "craft-plugin",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "search",
+    "url",
+    "seo"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Design Workshop",
+      "homepage": "https://designworkshop.uk"
+    }
+  ],
+  "support": {
+    "email": "wayne@designworkshop.uk",
+    "issues": "https://github.com/waynehultum/craft-search-url-encoder/issues?state=open",
+    "source": "https://github.com/waynehultum/craft-search-url-encoder",
+    "docs": "https://github.com/waynehultum/craft-search-url-encoder/blob/main/README.md"
+  },
+  "require": {
+    "php": "^8.2",
+    "craftcms/cms": "^5.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "designworkshop\\searchurlencoder\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "search-url-encoder",
+    "name": "Search URL Encoder",
+    "developer": "Design Workshop",
+    "developerUrl": "https://designworkshop.uk",
+    "developerEmail": "wayne@designworkshop.uk",
+    "documentationUrl": "https://github.com/waynehultum/craft-search-url-encoder/blob/main/README.md",
+    "class": "designworkshop\\searchurlencoder\\SearchUrlEncoder"
+  },
+  "config": {
+    "allow-plugins": {
+      "craftcms/plugin-installer": true,
+      "yiisoft/yii2-composer": true
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{% import '_includes/forms' as forms %}
+
+{% set extraProfiles = profiles|keys|filter(h => h != 'default') %}
+{% if extraProfiles is not empty %}
+  <p class="warning with-icon">Extra profiles are defined in <code>config/search-url-encoder.php</code>:
+    {{ extraProfiles|join(', ') }}. Their settings can't be edited here.</p>
+{% endif %}
+
+<h3>Default profile</h3>
+
+{{ forms.textField({
+    label: 'Search path',
+    instructions: 'URL segment before the encoded token, e.g. `search` → `/search/<token>`.',
+    id: 'searchPath',
+    name: 'searchPath',
+    value: settings.searchPath,
+    errors: settings.getErrors('searchPath'),
+    required: true,
+}) }}
+
+{{ forms.textField({
+    label: 'Results template',
+    instructions: 'Site template that receives `query`, `searchParams` and `token`.',
+    id: 'searchTemplate',
+    name: 'searchTemplate',
+    value: settings.searchTemplate,
+    errors: settings.getErrors('searchTemplate'),
+    required: true,
+}) }}
+
+{{ forms.lightswitchField({
+    label: 'Sign tokens (HMAC)',
+    instructions: 'Tokens are signed with your `CRAFT_SECURITY_KEY`. Unsigned or altered URLs return a 404. Changing this setting, or the security key, invalidates existing links.',
+    id: 'signTokens',
+    name: 'signTokens',
+    on: settings.signTokens,
+}) }}
+
+{{ forms.textField({
+    label: 'Max token length',
+    id: 'maxTokenLength',
+    name: 'maxTokenLength',
+    type: 'number',
+    value: settings.maxTokenLength,
+    min: 16,
+    max: 8192,
+    required: true,
+    errors: settings.getErrors('maxTokenLength'),
+}) }}

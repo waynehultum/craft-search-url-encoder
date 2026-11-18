@@ -1,0 +1,42 @@
+{# templates/search/results.twig #}
+{#
+  `searchParams` comes from the visitor. Signing stops people editing a link,
+  but anyone can post the search form with their own params, so only accept
+  values you expect (allowlist them, as with `section` below).
+#}
+{% extends '_layout' %}
+
+{% set allowedSections = ['products', 'news'] %}
+{% set section = searchParams.section ?? null %}
+{% set section = section in allowedSections ? section : allowedSections %}
+
+{% block content %}
+  <form method="post">
+    {{ csrfInput() }}
+    {{ actionInput('search-url-encoder/search/submit') }}
+    {% if profile != 'default' %}
+      {{ hiddenInput('profile', profile) }}
+    {% endif %}
+    {% if searchParams.section is defined %}
+      {{ hiddenInput('params[section]', searchParams.section) }}
+    {% endif %}
+    <input type="search" name="q" value="{{ query }}">
+    <button>Search</button>
+  </form>
+
+  {% set results = craft.entries()
+      .search(query)
+      .orderBy('score')
+      .section(section)
+      .limit(20)
+      .all() %}
+
+  <h1>{{ results|length }} results for “{{ query }}”</h1>
+  <ul>
+    {% for entry in results %}
+      <li><a href="{{ entry.url }}">{{ entry.title }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <p>Share: {{ searchUrl(query, searchParams, profile=profile) }}</p>
+{% endblock %}
